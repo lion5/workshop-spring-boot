@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Service</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Cover Image</th>
+        <th>Title</th>
+        <th>Won an Oscar</th>
+        <th>Year</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- TODO add loop here to show the movies list from the backend (the list you added to the springframework ui model -->
+    <form method="POST" th:action="@{/movies}" th:object="${movie}">
+        <!-- TODO insert the user input in the correct fields of the placeholder object movie -->
+        <tr>
+            <td>
+                URL: <input name="coverImage" type="text"/>
+            </td>
+            <td>
+                <input name="title" type="text">
+            </td>
+            <td><input name="wonOscar" type="checkbox"></td>
+            <td>
+                <input name="year" type="text">
+            </td>
+            <td>
+                <button>Create</button>
+            </td>
+        </tr>
+    </form>
+    </tbody>
+</table>
+
+</body>
+</html>

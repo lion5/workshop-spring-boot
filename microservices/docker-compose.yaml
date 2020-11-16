@@ -1,0 +1,36 @@
+version: "3.0"
+services:
+  config:
+    build: ./config
+    networks:
+      - backend
+  eureka:
+    build: ./eureka
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config
+    networks:
+      - backend
+  dvd:
+    build: ./dvd
+    ports:
+      - "9001:8080"
+    depends_on:
+      - eureka
+    volumes:
+      - dvd-volume:/dvd/data/sample
+    networks:
+      - backend
+  admin:
+    build: ./admin
+    ports:
+      - "8000:8000"
+    depends_on:
+      - eureka
+    networks:
+      - backend
+networks:
+  backend:
+volumes:
+  dvd-volume:
