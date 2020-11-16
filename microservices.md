@@ -33,14 +33,7 @@ public class ConfigServerApplication {
 }
 ```
 
-Add a **bootstrap.properties** and an **application.properties** file under **src/main/resources**.
-
-In your **bootstrap.properties**, you have to specify your GitHub account and the password (this is not security critical, since your services are running on localhost - only the config server needs this properties to access the GitHub repo for configuration files).
-```bash
-spring.cloud.config.server.git.username=
-spring.cloud.config.server.git.password=
-```
-The bootstrap file is loaded before the Spring application is started, so the recommended way is to put properties there, which are needed for service discovery etc.
+Add an **application.properties** file under **src/main/resources**.
 
 In the **application.properties**, you have to specify the current repository. Also the port is predefined here. We will use the *localhost:8888* config information within the other services' configuration.
 We also specify a subpath, where the config server searches for configuration files.
