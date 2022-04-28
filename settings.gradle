@@ -1,0 +1,8 @@
+rootProject.name = 'workshop-spring-boot'
+include 'samples:dependency-injection'
+include 'tasks:task1'
+include 'solutions:task1'
+include 'solutions:task2'
+include 'solutions:task3'
+include 'solutions:task4'
+include 'solutions:task5'
