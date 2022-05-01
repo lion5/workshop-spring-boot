@@ -12,6 +12,8 @@
 </head>
 <body>
 
+<div th:replace="fragments/header :: header">...</div>
+
 <form class="bg-light text-dark text-center py-5" method="POST" th:action="@{/register}" th:object="${registrationForm}">
     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +50,6 @@
         <button class="btn btn-dark py-0">Create</button>
     </div>
 </form>
-
+<div th:replace="fragments/footer :: footer">...</div>
 </body>
 </html>
