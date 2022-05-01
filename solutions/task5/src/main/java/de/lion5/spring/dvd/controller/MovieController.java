@@ -1,7 +1,5 @@
 package de.lion5.spring.dvd.controller;
 
-import javax.validation.Valid;
-
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.properties.MovieProperties;
 import de.lion5.spring.dvd.service.MovieService;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+
 @Slf4j
 @Controller
 @RequestMapping(value = "/movies")
@@ -36,6 +36,11 @@ public class MovieController {
 
     private void addAttributes(int page, Model model) {
         Page<Movie> pagedMovies = this.movieService.findAll(PageRequest.of(page, this.props.getPageSize()));
+
+        for (Movie m : pagedMovies.getContent()) {
+            log.info("Number of actors of the movie " + m.getTitle() + ": " + m.getActors().size());
+        }
+
 
         model.addAttribute("movies", pagedMovies.getContent());
         model.addAttribute("currentPage", page);
