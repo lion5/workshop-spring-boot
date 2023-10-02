@@ -24,10 +24,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${users}" th:object="${userUpdateForm}">
-        <form method="POST" th:action="@{/users/{username}/roles(username=${user.username})}" >
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.role}"></td>
+    <tr th:each="webUser : ${users}" th:object="${userUpdateForm}">
+        <form method="POST" th:action="@{/users/{username}/roles(username=${webUser.username})}" >
+            <td th:text="${webUser.username}"></td>
+            <td th:text="${webUser.role}"></td>
             <td>
                 <select th:field="*{newRole}">
                     <option value="">No Change</option>

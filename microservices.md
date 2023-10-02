@@ -157,7 +157,7 @@ eureka.instance.healthCheckUrlPath=${management.endpoints.web.base-path}/health
 ```
 We are using the bash-path property defined earlier to be as generic as possible.
 By now, we have microservices exposing some management information about their properties, beans, health etc., but we only can use them via curling the endpoint.
-Thanks to codecentric AG (https://www.codecentric.de/) for their implementation of a user friendly web frontend, where you can investigate your actuator endpoints exposed by your microservices.
+Thanks to codecentric AG (https://www.codecentric.de/) for their implementation of a webUser friendly web frontend, where you can investigate your actuator endpoints exposed by your microservices.
 
 <a id="admin-server"></a>
 ## Monitoring - leveled up - Spring Boot Admin Server
@@ -192,7 +192,7 @@ In our GitHub respository, we specified 8000 as the admin port, so access your a
 <a id="dvd-service"></a>
 ## First microservice - dvd store
 
-As already described in the [implementation guide](implementation.md) we deploy a custom dvd store, where a user management is existent and also some kind of REST API.
+As already described in the [implementation guide](implementation.md) we deploy a custom dvd store, where a webUser management is existent and also some kind of REST API.
 The service is by far not feature complete but gives a first overview of all concepts which are needed to build a full stack app with spring boot and how to integrate it in an architecture with management services.
 
 To use our implementation solution of *solutions/taks5* you have to adapt the build.gradle: add *application* plugin, add *eureka client*, *actuator*, *config client* dependencies to your build. **HINT:** It is easier to create a suitable *build.gradle* through the Initializr.

@@ -1,11 +1,10 @@
 package de.lion5.spring.dvd.controller;
 
-import javax.validation.Valid;
-
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.properties.MovieProperties;
 import de.lion5.spring.dvd.repository.MovieRepository;
-import de.lion5.spring.dvd.users.User;
+import de.lion5.spring.dvd.users.WebUser;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,7 +48,7 @@ public class MovieController {
     }
 
     @PostMapping
-    public String processMovie(@Valid Movie movie, Errors errors, Model model, @AuthenticationPrincipal User user) {
+    public String processMovie(@Valid Movie movie, Errors errors, Model model, @AuthenticationPrincipal WebUser webUser) {
         log.info("Client POSTed a new movie: " + movie);
         if(errors.hasErrors()){
             model.addAttribute("movies", this.movieRepository.findAll());
@@ -58,7 +57,7 @@ public class MovieController {
         }
 
         movie.setId(this.movieRepository.count() + 1L);
-        movie.setCreatedBy(user);
+        movie.setCreatedBy(webUser);
         this.movieRepository.save(movie);
 
         return "redirect:/movies";

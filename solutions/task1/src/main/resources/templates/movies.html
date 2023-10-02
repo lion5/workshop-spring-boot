@@ -32,12 +32,12 @@
                 <span class="text-danger" th:if="${#fields.hasErrors('coverImage')}" th:errors="*{coverImage}"></span>
             </td>
             <td>
-                <input name="title" th:field="*{title}" type="text">
+                Title: <input name="title" th:field="*{title}" type="text">
                 <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
             </td>
-            <td><input name="wonOscar" th:field="*{wonOscar}" type="checkbox"></td>
+            <td>Won an oscar? <input name="wonOscar" th:field="*{wonOscar}" type="checkbox"></td>
             <td>
-                <input name="year" th:field="*{year}" type="text">
+                Year: <input name="year" th:field="*{year}" type="text">
                 <span class="text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
             </td>
             <td>
