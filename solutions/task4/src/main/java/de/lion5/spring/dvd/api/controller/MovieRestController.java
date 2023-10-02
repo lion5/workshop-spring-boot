@@ -1,11 +1,5 @@
 package de.lion5.spring.dvd.api.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
 import de.lion5.spring.dvd.api.RestControllerException;
 import de.lion5.spring.dvd.api.assembler.MovieRepresentationalModelAssembler;
 import de.lion5.spring.dvd.api.dto.MoviePostDTO;
@@ -17,8 +11,9 @@ import de.lion5.spring.dvd.properties.MovieProperties;
 import de.lion5.spring.dvd.repository.ActorRepository;
 import de.lion5.spring.dvd.repository.FilmStudioRepository;
 import de.lion5.spring.dvd.repository.MovieRepository;
-import de.lion5.spring.dvd.users.User;
 import de.lion5.spring.dvd.users.UserRepository;
+import de.lion5.spring.dvd.users.WebUser;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -28,19 +23,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -150,7 +138,7 @@ public class MovieRestController {
 
         if (movieDTO.getYear() != 0) {
             if (errors.getFieldError("year") == null) {
-                movie.setYear(movieDTO.getYear());
+                movie.setReleaseYear(movieDTO.getYear());
             } else {
                 throw new RestControllerException(HttpStatus.BAD_REQUEST, errors.getFieldError("year").getDefaultMessage());
             }
@@ -189,12 +177,12 @@ public class MovieRestController {
         return ResponseEntity.noContent().build();
     }
 
-    private User getUser(String userName) {
+    private WebUser getUser(String userName) {
         if (userName == null) {
             return null;
         }
 
-        User user = this.userRepo.findUserByUsername(userName);
+        WebUser user = this.userRepo.findUserByUsername(userName);
         if (user == null) {
             throw new RestControllerException(HttpStatus.NOT_FOUND, "User not found with this username");
         }
