@@ -1,13 +1,13 @@
 package de.lion5.spring.dvd.unit.service;
 
-import java.util.Optional;
-
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.service.MovieService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -46,14 +46,14 @@ public class MovieServiceUnitTest {
     public void testUpdateOfMovie() {
         Movie m = movieService.saveAndSetId(new Movie("My Movie", false, 2003, "https://.png", null, null, null));
         m.setTitle("Another title");
-        m.setYear(2004);
+        m.setReleaseYear(2004);
 
         //update
         Movie updated = movieService.update(m);
 
         assertEquals(m.getId(), updated.getId());
         assertEquals("Another title", updated.getTitle());
-        assertEquals(2004, updated.getYear());
+        assertEquals(2004, updated.getReleaseYear());
     }
 
     @Test

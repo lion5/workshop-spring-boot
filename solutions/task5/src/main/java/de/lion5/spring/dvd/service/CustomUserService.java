@@ -1,7 +1,7 @@
 package de.lion5.spring.dvd.service;
 
-import de.lion5.spring.dvd.users.User;
 import de.lion5.spring.dvd.users.UserRepository;
+import de.lion5.spring.dvd.users.WebUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ public class CustomUserService {
         this.userRepository = userRepository;
     }
 
-    public User findUserByUsername(String username) throws MovieServiceException {
+    public WebUser findUserByUsername(String username) throws MovieServiceException {
         if (username == null) {
             return null;
         }
 
-        User user = this.userRepository.findUserByUsername(username);
+        WebUser user = this.userRepository.findUserByUsername(username);
         if (user == null) {
             throw new MovieServiceException("User not found with this username");
         }

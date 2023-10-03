@@ -1,11 +1,11 @@
 package de.lion5.spring.dvd.users;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -18,8 +18,8 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findUserByUsername(username);
+    public WebUser loadUserByUsername(String username) throws UsernameNotFoundException {
+        WebUser user = userRepo.findUserByUsername(username);
 
         if (user != null) {
             return user;
@@ -32,11 +32,11 @@ public class UserService implements UserDetailsService {
         return this.userRepo.count();
     }
 
-    public User save(User user) {
+    public WebUser save(WebUser user) {
         return this.userRepo.save(user);
     }
 
-    public List<User> findAll() {
+    public List<WebUser> findAll() {
         return this.userRepo.findAll();
     }
 }
