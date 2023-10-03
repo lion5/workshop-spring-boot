@@ -30,12 +30,13 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvcMatcher) throws Exception {
         http.authorizeRequests((requests) -> requests
-                        .requestMatchers(mvcMatcher.servletPath("/users").pattern("/"), mvcMatcher.servletPath("/h2-console").pattern("/**")).hasRole("ADMIN")
-                        .requestMatchers(mvcMatcher.servletPath("/movies").pattern("/")).hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(mvcMatcher.servletPath("/").pattern("/**"), mvcMatcher.servletPath("/register").pattern("/")).permitAll()
+                        .requestMatchers(mvcMatcher.pattern("/users"), mvcMatcher.pattern("/h2-console/**")).hasRole("ADMIN")
+                        .requestMatchers(mvcMatcher.pattern("/movies")).hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(mvcMatcher.pattern("/**")).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form.loginPage("/login").permitAll())
-                .csrf(request -> request.ignoringRequestMatchers(PathRequest.toH2Console()).ignoringRequestMatchers(mvcMatcher.servletPath("/v1").pattern("/**")))
+                .csrf(request -> request.ignoringRequestMatchers(PathRequest.toH2Console()).ignoringRequestMatchers(mvcMatcher.pattern("/v1/**")))
                 .headers(headers -> headers.frameOptions(option -> option.sameOrigin())) // needed to access the h2-console after introducing security module
                 .logout((logout) -> logout.permitAll().invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessUrl("/"));
         return http.build();
