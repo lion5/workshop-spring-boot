@@ -104,7 +104,7 @@ public class MovieControllerTest {
     public void postRequestMovies_authenticatedAdminCreateMovie_updatedMovieList() throws Exception {
 
         this.stubMovieServiceFindAll();
-        Movie m = new Movie(null, "Random title", false, 2000, "https://.png", List.of(), new FilmStudio(), null);
+        Movie m = new Movie(null, "Random title", false, 2000, "https://.png", null, null, null);
 
         List<Movie> spyList = Mockito.spy(this.movies);
         when(this.movieService.saveAndSetId(any(Movie.class))).thenAnswer(invocation -> {
@@ -126,7 +126,7 @@ public class MovieControllerTest {
     @Test
     public void postRequestMovies_authenticatedAdminCreateMovie_validationError() throws Exception {
         this.stubMovieServiceFindAll();
-        Movie m = new Movie(1L, "Test Movie", false, 2000, "http://.png", List.of(), new FilmStudio(), null);
+        Movie m = new Movie(1L, "Test Movie", false, 2000, "http://.png", null, null, null);
         this.mvc.perform(this.createPostRequestBuilder(m).with(csrf()).with(user(this.adminUser)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().hasErrors());
