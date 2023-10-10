@@ -1,14 +1,14 @@
 # builder stage
-FROM gradle:6.7.0-jdk11 as builder
+FROM gradle:8.3-jdk17 as builder
 
 COPY . /app
 WORKDIR /app
-RUN gradle installBootDist
+RUN gradle installBootDist --stacktrace
 
 # Image stage
 FROM alpine
 RUN apk update && apk add bash
-RUN apk add -U --no-cache openjdk11-jre
+RUN apk add -U --no-cache openjdk17-jre
 
 COPY --from=builder /app/build/install/dvd-boot /dvd
 

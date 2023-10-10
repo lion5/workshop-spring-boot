@@ -38,7 +38,7 @@ public class MovieRepresentationalModel extends RepresentationModel<MovieReprese
     public MovieRepresentationalModel(Movie movie) {
         this.title = movie.getTitle();
         this.wonOscar = movie.isWonOscar();
-        this.year = movie.getYear();
+        this.year = movie.getReleaseYear();
         this.coverImage = movie.getCoverImage();
         this.actors = new ArrayList<>();
         if (movie.getActors() != null) {

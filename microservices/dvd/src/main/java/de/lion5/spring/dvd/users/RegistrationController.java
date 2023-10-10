@@ -1,9 +1,10 @@
 package de.lion5.spring.dvd.users;
 
-import javax.validation.Valid;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,6 @@ public class RegistrationController {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     public RegistrationController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;

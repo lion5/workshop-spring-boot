@@ -46,14 +46,14 @@ public class MovieServiceUnitTest {
     public void testUpdateOfMovie() {
         Movie m = movieService.saveAndSetId(new Movie("My Movie", false, 2003, "https://.png", null, null, null));
         m.setTitle("Another title");
-        m.setYear(2004);
+        m.setReleaseYear(2004);
 
         //update
         Movie updated = movieService.update(m);
 
         assertEquals(m.getId(), updated.getId());
         assertEquals("Another title", updated.getTitle());
-        assertEquals(2004, updated.getYear());
+        assertEquals(2004, updated.getReleaseYear());
     }
 
     @Test

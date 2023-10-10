@@ -58,10 +58,10 @@ public class ActorRestControllerTest {
            .andExpect(jsonPath("$._embedded.actors[0].wonOscar", Matchers.is(tomHanks.isWonOscar())))
            .andExpect(jsonPath("$._embedded.actors[0].birthday", Matchers.is(tomHanks.getBirthday().toString())))
            .andExpect(jsonPath("$._embedded.actors[0].movies[0].title", Matchers.is(inception.getTitle())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[0].year", Matchers.is(inception.getYear())))
+           .andExpect(jsonPath("$._embedded.actors[0].movies[0].year", Matchers.is(inception.getReleaseYear())))
            .andExpect(jsonPath("$._embedded.actors[0].movies[0]._links.self.href", Matchers.endsWith(inception.getId().toString())))
            .andExpect(jsonPath("$._embedded.actors[0].movies[1].title", Matchers.is(cloudAtlas.getTitle())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[1].year", Matchers.is(cloudAtlas.getYear())))
+           .andExpect(jsonPath("$._embedded.actors[0].movies[1].year", Matchers.is(cloudAtlas.getReleaseYear())))
            .andExpect(jsonPath("$._embedded.actors[0].movies[1]._links.self.href", Matchers.endsWith(cloudAtlas.getId().toString())))
            .andExpect(jsonPath("$._embedded.actors[0]._links.self.href", Matchers.endsWith(tomHanks.getId().toString())));
     }
@@ -81,10 +81,10 @@ public class ActorRestControllerTest {
            .andExpect(jsonPath("$.wonOscar", Matchers.is(tomHanks.isWonOscar())))
            .andExpect(jsonPath("$.birthday", Matchers.is(tomHanks.getBirthday().toString())))
            .andExpect(jsonPath("$.movies[0].title", Matchers.is(inception.getTitle())))
-           .andExpect(jsonPath("$.movies[0].year", Matchers.is(inception.getYear())))
+           .andExpect(jsonPath("$.movies[0].year", Matchers.is(inception.getReleaseYear())))
            .andExpect(jsonPath("$.movies[0]._links.self.href", Matchers.endsWith(inception.getId().toString())))
            .andExpect(jsonPath("$.movies[1].title", Matchers.is(cloudAtlas.getTitle())))
-           .andExpect(jsonPath("$.movies[1].year", Matchers.is(cloudAtlas.getYear())))
+           .andExpect(jsonPath("$.movies[1].year", Matchers.is(cloudAtlas.getReleaseYear())))
            .andExpect(jsonPath("$.movies[1]._links.self.href", Matchers.endsWith(cloudAtlas.getId().toString())))
            .andExpect(jsonPath("$._links.self.href", Matchers.endsWith(tomHanks.getId().toString())));
     }

@@ -12,7 +12,7 @@ There are also some links included in the presentation you saw, where you can co
 - [Admin Server](microservices.md#admin-server) delivers a dashboard for all running services with management and monitoring information. (Implemented by Codecentric)
 - [DVD Service](microservices.md#dvd-service) is our first, not feature complete service, but shows all the aspects we need to implement a full stack app with spring boot.
 
-**HINT**: The properties shown in the following paragraphs are for a local deployment on localhost. So the idea is to run every single server via **./gradlew bootRun** or from within the IDE of choice. In the configured docker case, the settings may be different to some extent.
+**HINT**: The properties shown in the following paragraphs are for a local deployment on localhost. So the idea is to run every single server via `./gradlew bootRun` or from within the IDE of choice. In the configured docker case, the settings may be different to some extent.
 
 <a id="config-server"></a>
 

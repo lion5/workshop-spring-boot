@@ -1,6 +1,6 @@
 package de.lion5.spring.dvd;
 
-import de.lion5.spring.dvd.users.User;
+import de.lion5.spring.dvd.users.WebUser;
 import de.lion5.spring.dvd.users.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +27,8 @@ public class UserControllerIntegrationTest {
 
     private static final String BASE_PATH = "/users";
 
-    private User adminUser = new User("junitadmin", "1#2Asdfjklö", "Test Admin", "+49", "ROLE_ADMIN");
-    private User user = new User("junituser", "1#2Asdfjklö", "TestUser", "+49", "ROLE_USER");
+    private WebUser adminUser = new WebUser("junitadmin", "1#2Asdfjklö", "Test Admin", "+49", "ROLE_ADMIN");
+    private WebUser user = new WebUser("junituser", "1#2Asdfjklö", "TestUser", "+49", "ROLE_USER");
 
     @BeforeEach
     public void initDemoData() {

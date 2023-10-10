@@ -2,8 +2,6 @@ package de.lion5.spring.dvd.api.controller;
 
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import de.lion5.spring.dvd.api.RestControllerException;
 import de.lion5.spring.dvd.api.assembler.MovieRepresentationalModelAssembler;
 import de.lion5.spring.dvd.api.dto.MoviePostDTO;
@@ -15,6 +13,7 @@ import de.lion5.spring.dvd.service.CustomUserService;
 import de.lion5.spring.dvd.service.FilmStudioService;
 import de.lion5.spring.dvd.service.MovieService;
 import de.lion5.spring.dvd.service.MovieServiceException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
+
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -153,7 +153,7 @@ public class MovieRestController {
 
         if (movieDTO.getYear() != 0) {
             if (errors.getFieldError("year") == null) {
-                movie.setYear(movieDTO.getYear());
+                movie.setReleaseYear(movieDTO.getYear());
             } else {
                 throw new RestControllerException(HttpStatus.BAD_REQUEST, errors.getFieldError("year").getDefaultMessage());
             }

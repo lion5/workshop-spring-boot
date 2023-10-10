@@ -38,7 +38,7 @@ public class UserController {
 
         log.info("Change user: " + username + " " + formData.toString());
 
-        User user = this.userService.loadUserByUsername(username);
+        WebUser user = this.userService.loadUserByUsername(username);
         if (user == null || formData.getNewRole().isEmpty()) {
             return "redirect:/";
         }

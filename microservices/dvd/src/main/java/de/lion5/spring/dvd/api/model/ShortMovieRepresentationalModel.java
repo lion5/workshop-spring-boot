@@ -13,7 +13,7 @@ public class ShortMovieRepresentationalModel extends RepresentationModel<ShortMo
 
     public ShortMovieRepresentationalModel(Movie entity) {
         this.title = entity.getTitle();
-        this.year = entity.getYear();
+        this.year = entity.getReleaseYear();
     }
 }
 

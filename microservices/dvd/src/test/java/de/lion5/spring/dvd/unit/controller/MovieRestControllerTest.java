@@ -15,7 +15,7 @@ import de.lion5.spring.dvd.service.CustomUserService;
 import de.lion5.spring.dvd.service.FilmStudioService;
 import de.lion5.spring.dvd.service.MovieService;
 import de.lion5.spring.dvd.service.MovieServiceException;
-import de.lion5.spring.dvd.users.User;
+import de.lion5.spring.dvd.users.WebUser;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +57,7 @@ public class MovieRestControllerTest {
     private List<Movie> movies;
     private Actor jonny;
     private FilmStudio studio;
-    private User adminUser;
+    private WebUser adminUser;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -71,7 +71,7 @@ public class MovieRestControllerTest {
         this.movies = new ArrayList<>();
         this.jonny = new Actor(1L, "Jonny Depp", false, null, null);
         this.studio = new FilmStudio(1L, "DSG Film", null, null);
-        this.adminUser = new User("testAdmin", "super", "Super User", "+49 170", "ROLE_ADMIN");
+        this.adminUser = new WebUser("testAdmin", "super", "Super User", "+49 170", "ROLE_ADMIN");
         this.movies.add(new Movie(1L, "Test Movie", false, 2000, "https://.png",
                 Arrays.asList(this.jonny),
                 this.studio,
@@ -103,7 +103,7 @@ public class MovieRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is(test.getTitle())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.wonOscar", Matchers.is(test.isWonOscar())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.year", Matchers.is(test.getYear())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.year", Matchers.is(test.getReleaseYear())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.coverImage", Matchers.is(test.getCoverImage())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.actors[0].name", Matchers.is(jonny.getName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.actors[0]._links.self.href", Matchers.endsWith(jonny.getId().toString())))
@@ -124,7 +124,7 @@ public class MovieRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.movies[0].title", Matchers.is(test.getTitle())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.movies[0].wonOscar", Matchers.is(test.isWonOscar())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.movies[0].year", Matchers.is(test.getYear())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.movies[0].year", Matchers.is(test.getReleaseYear())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.movies[0].coverImage", Matchers.is(test.getCoverImage())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.movies[0].actors[0].name", Matchers.is(jonny.getName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$._embedded.movies[0].actors[0]._links.self.href", Matchers.endsWith(jonny.getId().toString())))
@@ -141,7 +141,7 @@ public class MovieRestControllerTest {
         when(this.studioService.findById(studio.getId())).thenReturn(studio);
         when(this.userService.findUserByUsername(adminUser.getUsername())).thenReturn(adminUser);
 
-        return new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getYear(), m.getCoverImage(), List.of(jonny.getId()),
+        return new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getReleaseYear(), m.getCoverImage(), List.of(jonny.getId()),
                 studio.getId(), adminUser.getUsername());
     }
 
@@ -165,7 +165,7 @@ public class MovieRestControllerTest {
         Movie m = this.movies.get(0);
         when(this.movieService.saveAndSetId(any(Movie.class))).thenReturn(m);
 
-        MoviePostDTO moviePostDTO = new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getYear(), m.getCoverImage(),
+        MoviePostDTO moviePostDTO = new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getReleaseYear(), m.getCoverImage(),
                 List.of(jonny.getId()), studio.getId(), adminUser.getUsername());
 
         // when
@@ -183,7 +183,7 @@ public class MovieRestControllerTest {
         Movie m = this.movies.get(0);
         when(this.movieService.saveAndSetId(any(Movie.class))).thenReturn(m);
 
-        MoviePostDTO moviePostDTO = new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getYear(), m.getCoverImage(), List.of(jonny.getId()), studio.getId(), adminUser.getUsername());
+        MoviePostDTO moviePostDTO = new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getReleaseYear(), m.getCoverImage(), List.of(jonny.getId()), studio.getId(), adminUser.getUsername());
 
         // when
         this.mvc.perform(post(BASE_PATH_MOVIES).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(moviePostDTO)))
@@ -199,7 +199,7 @@ public class MovieRestControllerTest {
         Movie m = this.movies.get(0);
         when(this.movieService.saveAndSetId(any(Movie.class))).thenReturn(m);
 
-        MoviePostDTO moviePostDTO = new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getYear(), m.getCoverImage(), List.of(jonny.getId()), studio.getId(), adminUser.getUsername());
+        MoviePostDTO moviePostDTO = new MoviePostDTO(m.getTitle(), m.isWonOscar(), m.getReleaseYear(), m.getCoverImage(), List.of(jonny.getId()), studio.getId(), adminUser.getUsername());
 
         // when
         this.mvc.perform(post(BASE_PATH_MOVIES).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(moviePostDTO)))
@@ -218,7 +218,7 @@ public class MovieRestControllerTest {
     @Test
     public void putRequestMovies_notFound() throws Exception {
         Movie m = this.movies.get(0);
-        MoviePostDTO moviePostDTO = new MoviePostDTO("A new title", m.isWonOscar(), m.getYear(), m.getCoverImage(), List.of(jonny.getId()), studio.getId(), adminUser.getUsername());
+        MoviePostDTO moviePostDTO = new MoviePostDTO("A new title", m.isWonOscar(), m.getReleaseYear(), m.getCoverImage(), List.of(jonny.getId()), studio.getId(), adminUser.getUsername());
 
         this.mvc.perform(put(BASE_PATH_MOVIES + "/1").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(moviePostDTO)))
                 .andExpect(status().isNotFound());
