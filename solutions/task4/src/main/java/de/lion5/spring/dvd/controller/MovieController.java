@@ -49,11 +49,14 @@ public class MovieController {
     }
 
     @PostMapping
-    public String processMovie(@Valid Movie movie, Errors errors, Model model, @AuthenticationPrincipal WebUser user) {
+    public String processMovie(@Valid Movie movie, Errors errors, Model model, @RequestParam(defaultValue = "0") int page, @AuthenticationPrincipal WebUser user) {
         log.info("Client POSTed a new movie: " + movie);
         if (errors.hasErrors()) {
-            model.addAttribute("movies", this.movieRepository.findAll());
             log.info(" . . . but there are errors included: " + movie);
+            Page<Movie> pagedMovies = this.movieRepository.findAll(PageRequest.of(page, props.getPageSize()));
+            model.addAttribute("movies", pagedMovies.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("noOfPages", pagedMovies.getTotalPages());
             return "movies";
         }
 

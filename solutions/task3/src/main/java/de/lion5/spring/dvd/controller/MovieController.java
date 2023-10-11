@@ -27,7 +27,7 @@ public class MovieController {
     private final MovieProperties props;
 
     @Autowired
-    public MovieController( MovieRepository movieRepository, MovieProperties props) {
+    public MovieController(MovieRepository movieRepository, MovieProperties props) {
         this.movieRepository = movieRepository;
         this.props = props;
     }
@@ -48,11 +48,14 @@ public class MovieController {
     }
 
     @PostMapping
-    public String processMovie(@Valid Movie movie, Errors errors, Model model, @AuthenticationPrincipal WebUser webUser) {
+    public String processMovie(@Valid Movie movie, Errors errors, Model model, @RequestParam(defaultValue = "0") int page, @AuthenticationPrincipal WebUser webUser) {
         log.info("Client POSTed a new movie: " + movie);
-        if(errors.hasErrors()){
-            model.addAttribute("movies", this.movieRepository.findAll());
+        if (errors.hasErrors()) {
             log.info(" . . . but there are errors included: " + movie);
+            Page<Movie> pagedMovies = this.movieRepository.findAll(PageRequest.of(page, props.getPageSize()));
+            model.addAttribute("movies", pagedMovies.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("noOfPages", pagedMovies.getTotalPages());
             return "movies";
         }
 
