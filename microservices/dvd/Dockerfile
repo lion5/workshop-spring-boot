@@ -3,7 +3,7 @@ FROM gradle:8.3-jdk17 as builder
 
 COPY . /app
 WORKDIR /app
-RUN gradle installBootDist --stacktrace
+RUN gradle installBootDist
 
 # Image stage
 FROM alpine

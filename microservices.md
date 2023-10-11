@@ -77,7 +77,7 @@ In our `bootstrap.properties`, we include the following lines:
 
 ```properties
 spring.application.name=service-registry
-spring.cloud.config.uri=http://localhost:8888
+spring.config.import=configserver:http://localhost:8888
 ```
 
 Since we have no configuration files hosted by our config server, we will add them before starting the eureka server.
@@ -209,7 +209,7 @@ Also edit your `bootstrap.properties` to configure the application name and the 
 spring.application.name=admin-server
 # spring config server url - necessary for all applications
 # getting their configs from standalone server
-spring.cloud.config.uri=http://localhost:8888
+spring.config.import=configserver:http://localhost:8888
 ```
 
 In our GitHub respository, we specified 8000 as the admin port, so access your admin server at <http://localhost:8000>.
