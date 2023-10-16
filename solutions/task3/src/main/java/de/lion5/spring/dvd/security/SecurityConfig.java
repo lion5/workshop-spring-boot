@@ -27,10 +27,10 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder);
+                .passwordEncoder(passwordEncoder);
         return authenticationManagerBuilder.build();
 
     }
