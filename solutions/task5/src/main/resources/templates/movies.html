@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div th:replace="fragments/header :: header">...</div>
+<div th:replace="~{fragments/header :: header}">...</div>
 
 <table class="table bg-light text-dark">
     <thead>
@@ -66,9 +66,9 @@
     </tbody>
 </table>
 
-<div th:replace="fragments/pageNavigation :: pageNavigation">...</div>
+<div th:replace="~{fragments/pageNavigation :: pageNavigation}">...</div>
 
-<div th:replace="fragments/footer :: footer">...</div>
+<div th:replace="~{fragments/footer :: footer}">...</div>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 package de.lion5.spring.dvd.users;
 
 
+import com.netflix.discovery.converters.Auto;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class RegistrationController {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
     public RegistrationController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;

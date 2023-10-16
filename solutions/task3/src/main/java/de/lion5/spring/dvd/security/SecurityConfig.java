@@ -1,10 +1,11 @@
 package de.lion5.spring.dvd.security;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,12 +21,18 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableWebSecurity
 public class SecurityConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Bean
     public PasswordEncoder createEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
+        return authenticationManagerBuilder.build();
+
     }
 
     @Bean
@@ -40,7 +47,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .loginPage("/login")
                         .permitAll()
                 )
-                //.csrf((request) -> request.ignoringRequestMatchers(mvc.pattern("/h2-console/**")))
                 .csrf(request -> request.ignoringRequestMatchers(PathRequest.toH2Console()))
                 .headers(headers -> headers.frameOptions(option -> option.sameOrigin()))
                 .logout((logout) -> logout.permitAll().invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessUrl("/"));
