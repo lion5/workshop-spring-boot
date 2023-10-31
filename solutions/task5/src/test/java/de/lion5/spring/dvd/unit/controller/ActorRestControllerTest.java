@@ -1,10 +1,5 @@
 package de.lion5.spring.dvd.unit.controller;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import de.lion5.spring.dvd.model.Actor;
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.service.ActorService;
@@ -19,6 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,16 +27,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ActorRestControllerTest {
 
+    private static final String BASE_PATH = "/v1/actors";
     @MockBean
     private ActorService actorService;
     @Autowired
     private MockMvc mvc;
-
     private Actor tomHanks, diCaprio;
     private Movie inception, cloudAtlas;
     private List<Actor> actorList;
-
-    private static final String BASE_PATH = "/v1/actors";
 
     @BeforeEach
     public void initDemoData() {
@@ -53,17 +51,17 @@ public class ActorRestControllerTest {
         when(actorService.findAll()).thenReturn(this.actorList);
 
         mvc.perform(MockMvcRequestBuilders.get(BASE_PATH).accept(MediaType.APPLICATION_JSON))
-           .andExpect(status().isOk())
-           .andExpect(jsonPath("$._embedded.actors[0].name", Matchers.is(tomHanks.getName())))
-           .andExpect(jsonPath("$._embedded.actors[0].wonOscar", Matchers.is(tomHanks.isWonOscar())))
-           .andExpect(jsonPath("$._embedded.actors[0].birthday", Matchers.is(tomHanks.getBirthday().toString())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[0].title", Matchers.is(inception.getTitle())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[0].year", Matchers.is(inception.getYear())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[0]._links.self.href", Matchers.endsWith(inception.getId().toString())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[1].title", Matchers.is(cloudAtlas.getTitle())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[1].year", Matchers.is(cloudAtlas.getYear())))
-           .andExpect(jsonPath("$._embedded.actors[0].movies[1]._links.self.href", Matchers.endsWith(cloudAtlas.getId().toString())))
-           .andExpect(jsonPath("$._embedded.actors[0]._links.self.href", Matchers.endsWith(tomHanks.getId().toString())));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.actors[0].name", Matchers.is(tomHanks.getName())))
+                .andExpect(jsonPath("$._embedded.actors[0].wonOscar", Matchers.is(tomHanks.isWonOscar())))
+                .andExpect(jsonPath("$._embedded.actors[0].birthday", Matchers.is(tomHanks.getBirthday().toString())))
+                .andExpect(jsonPath("$._embedded.actors[0].movies[0].title", Matchers.is(inception.getTitle())))
+                .andExpect(jsonPath("$._embedded.actors[0].movies[0].year", Matchers.is(inception.getReleaseYear())))
+                .andExpect(jsonPath("$._embedded.actors[0].movies[0]._links.self.href", Matchers.endsWith(inception.getId().toString())))
+                .andExpect(jsonPath("$._embedded.actors[0].movies[1].title", Matchers.is(cloudAtlas.getTitle())))
+                .andExpect(jsonPath("$._embedded.actors[0].movies[1].year", Matchers.is(cloudAtlas.getReleaseYear())))
+                .andExpect(jsonPath("$._embedded.actors[0].movies[1]._links.self.href", Matchers.endsWith(cloudAtlas.getId().toString())))
+                .andExpect(jsonPath("$._embedded.actors[0]._links.self.href", Matchers.endsWith(tomHanks.getId().toString())));
     }
 
     @Test
@@ -75,18 +73,18 @@ public class ActorRestControllerTest {
     public void getRequestActorById_minimalFullAPICompliantResponse() throws Exception {
         when(actorService.findById(tomHanks.getId())).thenReturn(Optional.of(tomHanks));
         mvc.perform(MockMvcRequestBuilders.get(BASE_PATH + "/" + tomHanks.getId())
-                                          .accept(MediaType.APPLICATION_JSON))
-           .andExpect(status().isOk())
-           .andExpect(jsonPath("$.name", Matchers.is(tomHanks.getName())))
-           .andExpect(jsonPath("$.wonOscar", Matchers.is(tomHanks.isWonOscar())))
-           .andExpect(jsonPath("$.birthday", Matchers.is(tomHanks.getBirthday().toString())))
-           .andExpect(jsonPath("$.movies[0].title", Matchers.is(inception.getTitle())))
-           .andExpect(jsonPath("$.movies[0].year", Matchers.is(inception.getYear())))
-           .andExpect(jsonPath("$.movies[0]._links.self.href", Matchers.endsWith(inception.getId().toString())))
-           .andExpect(jsonPath("$.movies[1].title", Matchers.is(cloudAtlas.getTitle())))
-           .andExpect(jsonPath("$.movies[1].year", Matchers.is(cloudAtlas.getYear())))
-           .andExpect(jsonPath("$.movies[1]._links.self.href", Matchers.endsWith(cloudAtlas.getId().toString())))
-           .andExpect(jsonPath("$._links.self.href", Matchers.endsWith(tomHanks.getId().toString())));
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", Matchers.is(tomHanks.getName())))
+                .andExpect(jsonPath("$.wonOscar", Matchers.is(tomHanks.isWonOscar())))
+                .andExpect(jsonPath("$.birthday", Matchers.is(tomHanks.getBirthday().toString())))
+                .andExpect(jsonPath("$.movies[0].title", Matchers.is(inception.getTitle())))
+                .andExpect(jsonPath("$.movies[0].year", Matchers.is(inception.getReleaseYear())))
+                .andExpect(jsonPath("$.movies[0]._links.self.href", Matchers.endsWith(inception.getId().toString())))
+                .andExpect(jsonPath("$.movies[1].title", Matchers.is(cloudAtlas.getTitle())))
+                .andExpect(jsonPath("$.movies[1].year", Matchers.is(cloudAtlas.getReleaseYear())))
+                .andExpect(jsonPath("$.movies[1]._links.self.href", Matchers.endsWith(cloudAtlas.getId().toString())))
+                .andExpect(jsonPath("$._links.self.href", Matchers.endsWith(tomHanks.getId().toString())));
     }
 
     @Test
@@ -98,6 +96,6 @@ public class ActorRestControllerTest {
     public void deleteRequestActorById_noContent() throws Exception {
         when(actorService.findById(tomHanks.getId())).thenReturn(Optional.of(tomHanks));
         mvc.perform(MockMvcRequestBuilders.delete(BASE_PATH + "/1"))
-           .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent());
     }
 }

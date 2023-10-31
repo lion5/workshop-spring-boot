@@ -1,7 +1,5 @@
 package de.lion5.spring.dvd.users;
 
-import java.util.Arrays;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+
 @Slf4j
 @Controller
 @RequestMapping(value = "users")
@@ -19,7 +19,7 @@ public class UserController {
     private UserRepository userRepo;
 
     @Autowired
-    public UserController(UserRepository userRepo){
+    public UserController(UserRepository userRepo) {
         this.userRepo = userRepo;
     }
 
@@ -34,12 +34,12 @@ public class UserController {
     }
 
     @PostMapping(value = "{username}/roles")
-    public String changeUserRight(@PathVariable(value = "username") String username,  UserUpdateForm formData){
+    public String changeUserRight(@PathVariable(value = "username") String username, UserUpdateForm formData) {
 
         log.info("Change user: " + username + " " + formData.toString());
 
-        User user = this.userRepo.findUserByUsername(username);
-        if(user == null || formData.getNewRole().isEmpty()) {
+        WebUser user = this.userRepo.findUserByUsername(username);
+        if (user == null || formData.getNewRole().isEmpty()) {
             return "redirect:/";
         }
 

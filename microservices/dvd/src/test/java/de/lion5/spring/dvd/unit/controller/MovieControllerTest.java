@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.service.MovieService;
-import de.lion5.spring.dvd.users.User;
+import de.lion5.spring.dvd.users.WebUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -41,15 +41,15 @@ public class MovieControllerTest {
     private MockMvc mvc;
 
     private List<Movie> movies;
-    private User adminUser;
-    private User user;
+    private WebUser adminUser;
+    private WebUser user;
 
     @BeforeEach
     public void initCommonUsedData() {
         this.movies = new ArrayList<>();
         this.movies.add(new Movie(1L, "Test Movie", false, 2000, "http://.png", null, null, null));
-        this.adminUser = new User("testAdmin", "super", "Super User", "+49 170", "ROLE_ADMIN");
-        this.user = new User("testUser", "normal", "User", "+49 171", "ROLE_USER");
+        this.adminUser = new WebUser("testAdmin", "super", "Super User", "+49 170", "ROLE_ADMIN");
+        this.user = new WebUser("testUser", "normal", "User", "+49 171", "ROLE_USER");
     }
 
     // stub service layer
@@ -64,7 +64,7 @@ public class MovieControllerTest {
     private MockHttpServletRequestBuilder createPostRequestBuilder(Movie m) {
         return MockMvcRequestBuilders.post("/movies")
                                      .param("title", m.getTitle())
-                                     .param("year", "" + m.getYear())
+                                     .param("year", "" + m.getReleaseYear())
                                      .param("coverImage", m.getCoverImage());
     }
 

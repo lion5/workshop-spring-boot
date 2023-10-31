@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Movie Service</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<div th:replace="fragments/header :: header">...</div>
+<div th:replace="~{fragments/header :: header}">...</div>
 
 <table class="table bg-light text-dark">
     <thead>
@@ -22,32 +29,34 @@
         <th>Title</th>
         <th>Won an Oscar</th>
         <th>Year</th>
-        <th  sec:authorize="hasRole('ROLE_ADMIN')">CreatedBy</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">CreatedBy</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="movie : ${movies}">
-        <td><img width="120" th:src="${movie.coverImage}"/></td>
+        <td><img th:src="${movie.coverImage}" width="120"/></td>
         <td th:text="${movie.title}"></td>
         <td th:text="${movie.wonOscar}"></td>
-        <td th:text="${movie.year}"></td>
-        <td sec:authorize="hasRole('ROLE_ADMIN')" th:if="${movie.createdBy != null}" th:text="${movie.createdBy.username}">UNKNOWN</td>
+        <td th:text="${movie.releaseYear}"></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')" th:if="${movie.createdBy != null}"
+            th:text="${movie.createdBy.username}">UNKNOWN
+        </td>
     </tr>
-    <form sec:authorize="hasRole('ROLE_ADMIN')" method="POST" th:action="@{/movies}" th:object="${movie}">
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+    <form method="POST" sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{/movies}" th:object="${movie}">
+        <input name="_csrf" th:value="${_csrf.token}" type="hidden"/>
         <tr>
             <td>
                 URL: <input name="coverImage" th:field="*{coverImage}" type="text"/>
-                <span class="text-danger" th:if="${#fields.hasErrors('coverImage')}" th:errors="*{coverImage}"></span>
+                <span class="text-danger" th:errors="*{coverImage}" th:if="${#fields.hasErrors('coverImage')}"></span>
             </td>
             <td>
                 <input name="title" th:field="*{title}" type="text">
-                <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                <span class="text-danger" th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></span>
             </td>
             <td><input name="wonOscar" th:field="*{wonOscar}" type="checkbox"></td>
             <td>
-                <input name="year" th:field="*{year}" type="text">
-                <span class="text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+                <input name="year" th:field="*{releaseYear}" type="text">
+                <span class="text-danger" th:errors="*{releaseYear}" th:if="${#fields.hasErrors('releaseYear')}"></span>
             </td>
             <td>
                 <button>Create</button>
@@ -57,9 +66,9 @@
     </tbody>
 </table>
 
-<div th:replace="fragments/pageNavigation :: pageNavigation">...</div>
+<div th:replace="~{fragments/pageNavigation :: pageNavigation}">...</div>
 
-<div th:replace="fragments/footer :: footer">...</div>
+<div th:replace="~{fragments/footer :: footer}">...</div>
 
 </body>
 </html>

@@ -1,11 +1,11 @@
 package de.lion5.spring.dvd.controller;
 
-import javax.validation.Valid;
 
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.properties.MovieProperties;
 import de.lion5.spring.dvd.repository.MovieRepository;
-import de.lion5.spring.dvd.users.User;
+import de.lion5.spring.dvd.users.WebUser;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,7 @@ public class MovieController {
     private final MovieProperties props;
 
     @Autowired
-    public MovieController( MovieRepository movieRepository, MovieProperties props) {
+    public MovieController(MovieRepository movieRepository, MovieProperties props) {
         this.movieRepository = movieRepository;
         this.props = props;
     }
@@ -49,11 +49,14 @@ public class MovieController {
     }
 
     @PostMapping
-    public String processMovie(@Valid Movie movie, Errors errors, Model model, @AuthenticationPrincipal User user) {
+    public String processMovie(@Valid Movie movie, Errors errors, Model model, @RequestParam(defaultValue = "0") int page, @AuthenticationPrincipal WebUser user) {
         log.info("Client POSTed a new movie: " + movie);
-        if(errors.hasErrors()){
-            model.addAttribute("movies", this.movieRepository.findAll());
+        if (errors.hasErrors()) {
             log.info(" . . . but there are errors included: " + movie);
+            Page<Movie> pagedMovies = this.movieRepository.findAll(PageRequest.of(page, props.getPageSize()));
+            model.addAttribute("movies", pagedMovies.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("noOfPages", pagedMovies.getTotalPages());
             return "movies";
         }
 

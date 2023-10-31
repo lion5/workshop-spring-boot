@@ -1,11 +1,9 @@
 package de.lion5.spring.dvd.unit.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import de.lion5.spring.dvd.model.FilmStudio;
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.service.MovieService;
-import de.lion5.spring.dvd.users.User;
+import de.lion5.spring.dvd.users.WebUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,14 +18,13 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 
 // SpringBootTest does not start a server by default, only when port is configured
@@ -41,15 +38,15 @@ public class MovieControllerTest {
     private MockMvc mvc;
 
     private List<Movie> movies;
-    private User adminUser;
-    private User user;
+    private WebUser adminUser;
+    private WebUser user;
 
     @BeforeEach
     public void initCommonUsedData() {
         this.movies = new ArrayList<>();
-        this.movies.add(new Movie(1L, "Test Movie", false, 2000, "http://.png", null, null, null));
-        this.adminUser = new User("testAdmin", "super", "Super User", "+49 170", "ROLE_ADMIN");
-        this.user = new User("testUser", "normal", "User", "+49 171", "ROLE_USER");
+        this.movies.add(new Movie(1L, "Test Movie", false, 2000, "http://.png", List.of(), new FilmStudio(), null));
+        this.adminUser = new WebUser("testAdmin", "super", "Super User", "+49 170", "ROLE_ADMIN");
+        this.user = new WebUser("testUser", "normal", "User", "+49 171", "ROLE_USER");
     }
 
     // stub service layer
@@ -63,9 +60,9 @@ public class MovieControllerTest {
 
     private MockHttpServletRequestBuilder createPostRequestBuilder(Movie m) {
         return MockMvcRequestBuilders.post("/movies")
-                                     .param("title", m.getTitle())
-                                     .param("year", "" + m.getYear())
-                                     .param("coverImage", m.getCoverImage());
+                .param("title", m.getTitle())
+                .param("releaseYear", "" + m.getReleaseYear())
+                .param("coverImage", m.getCoverImage());
     }
 
     @Test
@@ -90,7 +87,7 @@ public class MovieControllerTest {
         // stub service layer and database layer
         this.stubMovieServiceFindAll();
         this.mvc.perform(
-                this.createGetRequestBuilder().with(user(this.adminUser)))
+                        this.createGetRequestBuilder().with(user(this.adminUser)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().size(4))
                 .andExpect(MockMvcResultMatchers.model().attribute("movies", this.movies));

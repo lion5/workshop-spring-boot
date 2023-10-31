@@ -1,8 +1,5 @@
 package de.lion5.spring.dvd.api.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.lion5.spring.dvd.api.assembler.ShortActorRepresentationalModelAssembler;
 import de.lion5.spring.dvd.api.assembler.ShortFilmStudioRepresentationalModelAssembler;
 import de.lion5.spring.dvd.model.Actor;
@@ -10,6 +7,9 @@ import de.lion5.spring.dvd.model.Movie;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Relation(value = "movie", collectionRelation = "movies")
 public class MovieRepresentationalModel extends RepresentationModel<MovieRepresentationalModel> {
@@ -38,7 +38,7 @@ public class MovieRepresentationalModel extends RepresentationModel<MovieReprese
     public MovieRepresentationalModel(Movie movie) {
         this.title = movie.getTitle();
         this.wonOscar = movie.isWonOscar();
-        this.year = movie.getYear();
+        this.year = movie.getReleaseYear();
         this.coverImage = movie.getCoverImage();
         this.actors = new ArrayList<>();
         if (movie.getActors() != null) {

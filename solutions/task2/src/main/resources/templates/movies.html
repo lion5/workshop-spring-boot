@@ -23,7 +23,7 @@
         <td><img width="120" th:src="${movie.coverImage}"/></td>
         <td th:text="${movie.title}"></td>
         <td th:text="${movie.wonOscar}"></td>
-        <td th:text="${movie.year}"></td>
+        <td th:text="${movie.releaseYear}"></td>
     </tr>
     <form method="POST" th:action="@{/movies}" th:object="${movie}">
         <tr>
@@ -37,8 +37,8 @@
             </td>
             <td><input name="wonOscar" th:field="*{wonOscar}" type="checkbox"></td>
             <td>
-                <input name="year" th:field="*{year}" type="text">
-                <span class="text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+                <input name="year" th:field="*{releaseYear}" type="text">
+                <span class="text-danger" th:if="${#fields.hasErrors('releaseYear')}" th:errors="*{releaseYear}"></span>
             </td>
             <td>
                 <button>Create</button>

@@ -1,10 +1,10 @@
 package de.lion5.spring.dvd.users;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public class RegistrationForm {
     private String fullName;
     private String phoneNumber;
 
-    public User toUser(PasswordEncoder passwordEncoder, String role) {
-        return new User(username, passwordEncoder.encode(password), fullName, phoneNumber, role);
+    public WebUser toUser(PasswordEncoder passwordEncoder, String role) {
+        return new WebUser(username, passwordEncoder.encode(password), fullName, phoneNumber, role);
     }
 }

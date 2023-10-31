@@ -1,7 +1,7 @@
 package de.lion5.spring.dvd.users;
 
-import javax.validation.Valid;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,13 +21,13 @@ public class RegistrationController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(UserRepository userRepo, PasswordEncoder passwordEncoder){
+    public RegistrationController(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
-    public String getRegistrationForm(Model model){
+    public String getRegistrationForm(Model model) {
 
         log.info("Show registration page");
         model.addAttribute("registrationForm", new RegistrationForm());
@@ -38,13 +38,13 @@ public class RegistrationController {
     @PostMapping
     public String createUser(@Valid RegistrationForm registrationForm, Errors errors) {
 
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             log.info("User registration contained errors: " + registrationForm.toString());
             return "register";
         }
 
         // first user is admin
-        if(userRepo.count() == 0) {
+        if (userRepo.count() == 0) {
             userRepo.save(registrationForm.toUser(passwordEncoder, "ROLE_ADMIN"));
         } else {
             userRepo.save(registrationForm.toUser(passwordEncoder, "ROLE_USER"));

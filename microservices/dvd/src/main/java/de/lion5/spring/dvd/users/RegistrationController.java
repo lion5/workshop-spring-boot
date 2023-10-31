@@ -1,9 +1,11 @@
 package de.lion5.spring.dvd.users;
 
-import javax.validation.Valid;
 
+import com.netflix.discovery.converters.Auto;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

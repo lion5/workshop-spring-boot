@@ -38,13 +38,13 @@ public class UserController {
 
         log.info("Change user: " + username + " " + formData.toString());
 
-        User user = this.userRepo.findUserByUsername(username);
-        if(user == null || formData.getNewRole().isEmpty()) {
+        WebUser webUser = this.userRepo.findUserByUsername(username);
+        if(webUser == null || formData.getNewRole().isEmpty()) {
             return "redirect:/";
         }
 
-        user.setRole(formData.getNewRole());
-        this.userRepo.save(user);
+        webUser.setRole(formData.getNewRole());
+        this.userRepo.save(webUser);
 
         return "redirect:/users";
     }

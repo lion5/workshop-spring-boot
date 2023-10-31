@@ -47,7 +47,7 @@ public class FilmStudioRestControllerTest {
            .andExpect(jsonPath("$._embedded.studios[0].name", Matchers.is(warner.getName())))
            .andExpect(jsonPath("$._embedded.studios[0].since", Matchers.is(warner.getSince().toString())))
            .andExpect(jsonPath("$._embedded.studios[0].movies[0].title", Matchers.is(warner.getMovies().get(0).getTitle())))
-           .andExpect(jsonPath("$._embedded.studios[0].movies[0].year", Matchers.is(warner.getMovies().get(0).getYear())))
+           .andExpect(jsonPath("$._embedded.studios[0].movies[0].year", Matchers.is(warner.getMovies().get(0).getReleaseYear())))
            .andExpect(jsonPath("$._embedded.studios[0].movies[0]._links.self.href", Matchers.endsWith(warner.getMovies().get(0).getId().toString())))
            .andExpect(jsonPath("$._embedded.studios[0]._links.self.href", Matchers.endsWith(warner.getId().toString())));
     }
@@ -68,7 +68,7 @@ public class FilmStudioRestControllerTest {
            .andExpect(jsonPath("$.name", Matchers.is(warner.getName())))
            .andExpect(jsonPath("$.since", Matchers.is(warner.getSince().toString())))
            .andExpect(jsonPath("$.movies[0].title", Matchers.is(warner.getMovies().get(0).getTitle())))
-           .andExpect(jsonPath("$.movies[0].year", Matchers.is(warner.getMovies().get(0).getYear())))
+           .andExpect(jsonPath("$.movies[0].year", Matchers.is(warner.getMovies().get(0).getReleaseYear())))
            .andExpect(jsonPath("$.movies[0]._links.self.href", Matchers.endsWith(warner.getMovies().get(0).getId().toString())))
            .andExpect(jsonPath("$._links.self.href", Matchers.endsWith(warner.getId().toString())));
     }

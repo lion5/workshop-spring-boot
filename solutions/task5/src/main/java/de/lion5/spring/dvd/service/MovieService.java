@@ -1,7 +1,5 @@
 package de.lion5.spring.dvd.service;
 
-import java.util.Optional;
-
 import de.lion5.spring.dvd.model.Movie;
 import de.lion5.spring.dvd.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
